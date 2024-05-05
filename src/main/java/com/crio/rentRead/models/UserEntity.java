@@ -3,6 +3,7 @@ package com.crio.rentRead.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class UserEntity {
 
     private String lastName;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
@@ -35,4 +37,5 @@ public class UserEntity {
 
     @OneToMany(fetch = FetchType.EAGER)
     private Set<BookEntity> rentedBooks = new HashSet<>();
+    
 }
