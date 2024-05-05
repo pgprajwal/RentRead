@@ -31,21 +31,6 @@ public class BookController {
         return null;
     }
 
-    @PutMapping("/{bookId}")
-    public ResponseEntity<Book> updateBook(@PathVariable(value = "bookId") int bookId, @Valid @RequestBody UpdateBookRequest updateBookRequest) {
-        return null;
-    }
-
-    @GetMapping
-    public ResponseEntity<GetAllBooksResponse> getAllBooks() {
-        return null;
-    }
-
-    @DeleteMapping("/{bookId}")
-    public ResponseEntity<String> deleteBook(@PathVariable(value = "bookId") int bookId) {
-        return null;
-    }
-
     // @AuthenticationPrincipal: This annotation provides the details of the currently authenticated user
     @PostMapping("/{bookId}/rent") 
     public ResponseEntity<RentBookResponse> rentBook(@PathVariable (value = "bookId") int bookId, @AuthenticationPrincipal UserDetails userDetails) {
@@ -54,6 +39,21 @@ public class BookController {
 
     @PostMapping("/{bookId}/return")
     public ResponseEntity<ReturnBookResponse> returnBook(@PathVariable (value = "bookId") int bookId, @AuthenticationPrincipal UserDetails userDetails) {
+        return null;
+    }
+
+    @GetMapping
+    public ResponseEntity<GetAllBooksResponse> getAllBooks() {
+        return null;
+    }
+
+    @PutMapping("/{bookId}")
+    public ResponseEntity<Book> updateBook(@PathVariable(value = "bookId") int bookId, @Valid @RequestBody UpdateBookRequest updateBookRequest) {
+        return null;
+    }
+
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<String> deleteBook(@PathVariable(value = "bookId") int bookId) {
         return null;
     }
 
