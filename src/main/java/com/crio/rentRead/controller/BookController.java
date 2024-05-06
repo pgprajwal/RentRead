@@ -1,5 +1,6 @@
 package com.crio.rentRead.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import com.crio.rentRead.exchanges.GetAllBooksResponse;
 import com.crio.rentRead.exchanges.RentBookResponse;
 import com.crio.rentRead.exchanges.ReturnBookResponse;
 import com.crio.rentRead.exchanges.UpdateBookRequest;
+import com.crio.rentRead.services.BookService;
 
 import jakarta.validation.Valid;
 
@@ -26,35 +28,44 @@ import jakarta.validation.Valid;
 public class BookController {
     public static final String BOOK_API_ENDPOINT = "/books";
 
+    @Autowired
+    private BookService bookService;
+
     @PostMapping
     public ResponseEntity<Book> createBook(@Valid @RequestBody CreateBookRequest createBookRequest) {
-        return null;
+        Book book = bookService.createBook(createBookRequest);
+        return ResponseEntity.ok().body(book);
     }
 
     // @AuthenticationPrincipal: This annotation provides the details of the currently authenticated user
     @PostMapping("/{bookId}/rent") 
     public ResponseEntity<RentBookResponse> rentBook(@PathVariable (value = "bookId") int bookId, @AuthenticationPrincipal UserDetails userDetails) {
-        return null;
+        RentBookResponse rentBookResponse = bookService.rentBook(bookId, userDetails);
+        return ResponseEntity.ok().body(rentBookResponse);
     }
 
     @PostMapping("/{bookId}/return")
     public ResponseEntity<ReturnBookResponse> returnBook(@PathVariable (value = "bookId") int bookId, @AuthenticationPrincipal UserDetails userDetails) {
-        return null;
+        ReturnBookResponse returnBookResponse = bookService.returnBook(bookId, userDetails);
+        return ResponseEntity.ok().body(returnBookResponse);
     }
 
     @GetMapping
     public ResponseEntity<GetAllBooksResponse> getAllBooks() {
-        return null;
+        GetAllBooksResponse getAllBooksResponse = bookService.findAllBooks();
+        return ResponseEntity.ok().body(getAllBooksResponse);
     }
 
     @PutMapping("/{bookId}")
     public ResponseEntity<Book> updateBook(@PathVariable(value = "bookId") int bookId, @Valid @RequestBody UpdateBookRequest updateBookRequest) {
-        return null;
+        Book book = bookService.updateBook(bookId, updateBookRequest);
+        return ResponseEntity.ok().body(book);
     }
 
     @DeleteMapping("/{bookId}")
     public ResponseEntity<String> deleteBook(@PathVariable(value = "bookId") int bookId) {
-        return null;
+        String response = bookService.deleteBook(bookId);
+        return ResponseEntity.ok().body(response);
     }
 
 }

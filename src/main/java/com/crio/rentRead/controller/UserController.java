@@ -1,5 +1,6 @@
 package com.crio.rentRead.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.crio.rentRead.dto.User;
 import com.crio.rentRead.exchanges.LoginUserRequest;
 import com.crio.rentRead.exchanges.RegisterUserRequest;
+import com.crio.rentRead.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -17,13 +19,18 @@ import jakarta.validation.Valid;
 public class UserController {
     public static final String USER_API_ENDPOINT = "/users";
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@Valid @RequestBody RegisterUserRequest registerUserRequest) {
-        return null;
+        User registeredUser = userService.registerUser(registerUserRequest);
+        return ResponseEntity.ok().body(registeredUser);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginUserRequest loginUserRequest) {
-        return null;
+        String response = userService.loginUser(loginUserRequest);
+        return ResponseEntity.ok().body(response);
     }
 }
