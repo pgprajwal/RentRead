@@ -1,16 +1,25 @@
 package com.crio.rentRead.exchanges;
 
-import java.util.List;
+import java.util.Set;
 
 import com.crio.rentRead.dto.Book;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class RentBookResponse {
+
+    private int id;
+
     private String firstName;
+
     private String lastName;
-    private List<Book> rentedBooks;
+
+    private String role;
+
+    private Set<Book> rentedBooks;
+
 }

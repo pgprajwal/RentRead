@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.crio.rentRead.dto.User;
+import com.crio.rentRead.exceptions.InvalidCredentialsException;
 import com.crio.rentRead.exchanges.LoginUserRequest;
 import com.crio.rentRead.exchanges.RegisterUserRequest;
 import com.crio.rentRead.services.UserService;
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginUserRequest loginUserRequest) {
+    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginUserRequest loginUserRequest) throws InvalidCredentialsException {
         String response = userService.loginUser(loginUserRequest);
         return ResponseEntity.ok().body(response);
     }
