@@ -2,13 +2,17 @@ package com.crio.rentRead.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.crio.rentRead.dto.User;
 import com.crio.rentRead.exceptions.InvalidCredentialsException;
+import com.crio.rentRead.exceptions.UserNotFoundException;
+import com.crio.rentRead.exceptions.UserNotRegisteredException;
 import com.crio.rentRead.exchanges.LoginUserRequest;
 import com.crio.rentRead.exchanges.RegisterUserRequest;
 import com.crio.rentRead.repositoryServices.UserRepositoryService;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -30,11 +34,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(LoginUserRequest loginUserRequest) throws InvalidCredentialsException {
+    public String loginUser(LoginUserRequest loginUserRequest) throws InvalidCredentialsException, UserNotRegisteredException {
         String email = loginUserRequest.getEmail();
         String password = loginUserRequest.getPassword();
+        User user;
 
-        User user = userRepositoryService.findUserByEmail(email);
+        try {
+            user = userRepositoryService.findUserByEmail(email);
+        } catch (UserNotFoundException e) {
+            throw new UserNotRegisteredException("User not registered");
+        }
 
         if(isPasswordMatching(password, user.getPassword())) {
             String response = "Login successful";
