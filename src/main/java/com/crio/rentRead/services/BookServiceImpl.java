@@ -72,7 +72,9 @@ public class BookServiceImpl implements BookService {
         if(hasRentedBook(user, book)) {
             Set<Book> rentedBooks = user.getRentedBooks();
             rentedBooks.remove(book);
+            book.setAvailabilityStatus("AVAILABLE");
             user = userRepositoryService.saveUser(user);
+            bookRepositoryService.saveBook(book);
             ReturnBookResponse returnBookResponse = new ReturnBookResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getRole(), user.getRentedBooks());
             return returnBookResponse;
         }

@@ -1,4 +1,4 @@
-package com.crio.rentRead.controller;
+package com.crio.rentRead.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

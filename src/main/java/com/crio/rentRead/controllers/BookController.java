@@ -1,4 +1,4 @@
-package com.crio.rentRead.controller;
+package com.crio.rentRead.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,44 +37,44 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> createBook(@Valid @RequestBody CreateBookRequest createBookRequest) {
         Book book = bookService.createBook(createBookRequest);
         return ResponseEntity.ok().body(book);
     }
 
     // @AuthenticationPrincipal: This annotation provides the details of the currently authenticated user
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{bookId}/rent") 
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<RentBookResponse> rentBook(@PathVariable (value = "bookId") int bookId, @AuthenticationPrincipal UserDetails userDetails) throws UserNotFoundException, BookNotFoundException, BookNotAvailableException, RentalException {
         RentBookResponse rentBookResponse = bookService.rentBook(bookId, userDetails);
         return ResponseEntity.ok().body(rentBookResponse);
     }
 
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/{bookId}/return")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReturnBookResponse> returnBook(@PathVariable (value = "bookId") int bookId, @AuthenticationPrincipal UserDetails userDetails) throws UserNotFoundException, BookNotFoundException, BookNotRentedException {
         ReturnBookResponse returnBookResponse = bookService.returnBook(bookId, userDetails);
         return ResponseEntity.ok().body(returnBookResponse);
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<GetAllBooksResponse> getAllBooks() {
         GetAllBooksResponse getAllBooksResponse = bookService.findAllBooks();
         return ResponseEntity.ok().body(getAllBooksResponse);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{bookId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> updateBook(@PathVariable(value = "bookId") int bookId, @Valid @RequestBody UpdateBookRequest updateBookRequest) throws BookNotFoundException {
         Book book = bookService.updateBook(bookId, updateBookRequest);
         return ResponseEntity.ok().body(book);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{bookId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteBook(@PathVariable(value = "bookId") int bookId) throws BookNotFoundException {
         String response = bookService.deleteBook(bookId);
         return ResponseEntity.ok().body(response);
