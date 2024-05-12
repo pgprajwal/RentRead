@@ -60,7 +60,7 @@ public class BookController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<GetAllBooksResponse> getAllBooks() {
         GetAllBooksResponse getAllBooksResponse = bookService.findAllBooks();
         return ResponseEntity.ok().body(getAllBooksResponse);
